@@ -9,32 +9,26 @@ namespace FileboxSeleniumTest
     {
         private readonly IWebDriver m_driver;
 
-        private readonly string HOME_PAGE = "http://localhost:3000/";
+        private readonly By SORT_BY_ITEM = By.Id("sort-by");
+        private readonly By SORT_FILE_SIZE_ITEM = By.Id("sort-file_size");
+        private readonly By SORT_DATE_ITEM = By.Id("sort-date");
 
         public SortFileTest(WebDriver driver)
         {
             m_driver = driver.m_webDriver;
-            m_driver.Navigate().GoToUrl(HOME_PAGE);
         }
     
 
         [Fact]
         public void SortFileByFileSize_WithGivenFolderId_ShouldReturnTrue()
         {
+            Util.WaitUntil(m_driver, SORT_BY_ITEM);
 
-            Util.Login(m_driver);
-
-            {
-                WebDriverWait wait = new WebDriverWait(m_driver, System.TimeSpan.FromSeconds(30));
-                wait.Until(driver => driver.FindElement(By.Id("sort-by")).Enabled);
-            }
-
-            m_driver.FindElement(By.Id("sort-by")).Click();
-            m_driver.FindElement(By.Id("sort-file_size")).Click();
+            m_driver.FindElement(SORT_BY_ITEM).Click();
+            m_driver.FindElement(SORT_FILE_SIZE_ITEM).Click();
 
 
-            var table = m_driver.FindElement(By.Id("table"));
-            var files = table.FindElement(By.Id("table-body")).FindElements(By.Id("file-col"));
+            var files = Util.GetFiles(m_driver);
 
 
             var mbList = new List<double>();
@@ -42,27 +36,13 @@ namespace FileboxSeleniumTest
             var byteList = new List<double>();
             var kbList = new List<double>();
 
-            string pattern = @"(\d+\.\d+)\s*(MB|GB|Byte|KB)";
-            foreach (var f in files)
+            files.ForEach(f =>
             {
-                var size = f.FindElement(By.Id("file-size-ref")).Text;
-                Match match = Regex.Match(size, pattern);
-                string extractedNumber = match.Groups[1].Value;
-                string unit = match.Groups[2].Value;
-
-                if (unit == "MB")
-                    mbList.Add(double.Parse(extractedNumber));
-
-                if (unit == "GB")
-                    gbList.Add(double.Parse(extractedNumber));
-
-                if (unit == "KB")
-                    kbList.Add(double.Parse(extractedNumber));
-
-                if (unit == "Byte")
-                    byteList.Add(double.Parse(extractedNumber));
-            }
-
+                if (f.fileSizeUnit == "MB") mbList.Add(f.fileSize);
+                if (f.fileSizeUnit == "KB") kbList.Add(f.fileSize);
+                if (f.fileSizeUnit == "GB") gbList.Add(f.fileSize);
+                if (f.fileSizeUnit == "Byte") byteList.Add(f.fileSize);
+            });
 
             var flag = true;
 
@@ -90,30 +70,16 @@ namespace FileboxSeleniumTest
         {
             Util.Login(m_driver);
 
-            {
-                WebDriverWait wait = new WebDriverWait(m_driver, System.TimeSpan.FromSeconds(30));
-                wait.Until(driver => driver.FindElement(By.Id("sort-by")).Enabled);
-            }
+            Util.WaitUntil(m_driver, SORT_BY_ITEM);
 
-            m_driver.FindElement(By.Id("sort-by")).Click();
-            m_driver.FindElement(By.Id("sort-date")).Click();
+            m_driver.FindElement(SORT_BY_ITEM).Click();
+            m_driver.FindElement(SORT_DATE_ITEM).Click();
 
+            var files = Util.GetFiles(m_driver);
 
-            var table = m_driver.FindElement(By.Id("table"));
-            var files = table.FindElement(By.Id("table-body")).FindElements(By.Id("file-col"));
+            Util.WaitUntil(m_driver, SORT_BY_ITEM);
 
-
-            var dateList = new List<DateTime>();
-            var format = "dd/MM/yyyy HH:mm:ss";
-            foreach (var f in files)
-            {
-                var dateString = f.FindElement(By.Id("file-creation_date-ref")).Text;
-
-                var dateTimeObject = DateTime.ParseExact(dateString, format, CultureInfo.InvariantCulture, DateTimeStyles.None);
-
-                dateList.Add(dateTimeObject);
-            }
-
+            var dateList = files.Select(f => f.creationDate).ToList();
 
             var flag = true;
 

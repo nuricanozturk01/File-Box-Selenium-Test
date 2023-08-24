@@ -1,22 +1,20 @@
 ﻿using OpenQA.Selenium;
 using OpenQA.Selenium.Interactions;
 using OpenQA.Selenium.Support.UI;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FileboxSeleniumTest
 {
     public class CopyTest : IClassFixture<WebDriver>
     {
+        private readonly By TABLE_ID = By.Id("table");
+        private readonly By COPY_RIGHT_CLICK_BUTTON = By.Id("copy-right-click-item-button");
+        private readonly By PASTE_RIGHT_CLICK_BUTTON = By.Id("paste-right-click-item-button");
+
         private readonly IWebDriver m_driver;
-        private readonly string HOME_PAGE = "http://localhost:3000/";
-        public CopyTest (WebDriver driver)
+        
+        public CopyTest(WebDriver driver)
         {
-            m_driver = driver.m_webDriver;
-            m_driver.Navigate().GoToUrl(HOME_PAGE);
+            m_driver = driver.m_webDriver;        
         }
 
         [Fact]
@@ -25,47 +23,40 @@ namespace FileboxSeleniumTest
             var random = new Random();
             Util.Login(m_driver);
 
-            {
-                WebDriverWait wait = new WebDriverWait(m_driver, TimeSpan.FromSeconds(30));
-                wait.Until(driver => driver.FindElement(By.Id("table")).Enabled);
-            }
+            Util.WaitUntil(m_driver, TABLE_ID);
 
             // Files on the page
             var files = Util.GetFiles(m_driver);
+            Util.WaitUntil(m_driver, TABLE_ID);
             var folders = Util.GetFolders(m_driver);
-
+            Util.WaitUntil(m_driver, TABLE_ID);
             //Selecting removing file
+
             var copyingFile = files[random.Next(0, files.Count - 1)];
             var copiedFolder = folders[1];
 
             // Action for right click
             Actions action = new Actions(m_driver);
             action.MoveToElement(copyingFile.selectedWebElement).ContextClick().Build().Perform();
-
-            m_driver.FindElement(By.Id("copy-right-click-item-button")).Click();
+            
+            // Copied selected item
+            m_driver.FindElement(COPY_RIGHT_CLICK_BUTTON).Click();
             copiedFolder.selectedWebElement.Click();
-
+            Util.WaitUntil(m_driver, TABLE_ID);
             var filesOnFolder = Util.GetFiles(m_driver);
-
+            
+            Util.WaitUntil(m_driver, TABLE_ID);
+            
             action.MoveToElement(filesOnFolder[0].selectedWebElement).ContextClick().Build().Perform();
 
-            m_driver.FindElement(By.Id("paste-right-click-item-button")).Click();
-
-            {
-                WebDriverWait wait = new WebDriverWait(m_driver, TimeSpan.FromSeconds(30));
-                wait.Until(driver => driver.FindElement(By.Id("table")).Enabled);
-            }
+            m_driver.FindElement(PASTE_RIGHT_CLICK_BUTTON).Click();
+            Util.WaitUntil(m_driver, TABLE_ID);
 
             var afterCopiedFileList = Util.GetFiles(m_driver);
-            m_driver.Navigate().GoToUrl(HOME_PAGE + "home");
-            {
-                WebDriverWait wait = new WebDriverWait(m_driver, TimeSpan.FromSeconds(30));
-                wait.Until(driver => driver.FindElement(By.Id("table")).Enabled);
-            }
+
+            Util.WaitUntil(m_driver, TABLE_ID);
             var homePageFiles = Util.GetFiles(m_driver);
-
-           
-
+            
             Assert.Contains(homePageFiles, f => f.name == copyingFile.name);
             Assert.Contains(afterCopiedFileList, f => f.name == copyingFile.name);
         }

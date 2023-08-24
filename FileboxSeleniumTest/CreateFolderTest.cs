@@ -1,67 +1,41 @@
 ﻿using OpenQA.Selenium;
+using OpenQA.Selenium.Support.UI;
 
 namespace FileboxSeleniumTest
 {
     public class CreateFolderTest : IClassFixture<WebDriver>
     {
         private readonly IWebDriver m_driver;
-        private readonly string HOME_PAGE = "http://localhost:3000/";
 
-        private readonly string CREATED_TEST_NAME = Path.GetFileNameWithoutExtension(Path.GetRandomFileName());
-        
+        private readonly string VALID_TEST_FOLDER_NAME = Path.GetFileNameWithoutExtension(Path.GetRandomFileName());
+        private readonly string INVALID_TEST_FOLDER_NAME = "asdas/?*<>";
 
         private readonly By CREATE_FOLDER_MENU_ITEM = By.Id("create-folder");
         private readonly By CREATE_FOLDER_INPUT = By.Id("create-folder-input");
+        private readonly By INVALID_CREATE_FOLDER_MESSAGE = By.Id("invalid-created-folder-name");
         private readonly By CREATE_FOLDER_BUTTON = By.Id("create-folder-button");
 
-
-
-        private readonly By USERNAME_INPUT = By.Id("floatingInput");
-        private readonly By PASSWORD_INPUT = By.Id("floatingPassword");
-        private readonly By LOGIN_BUTTON = By.Id("login-button");
-
-        private readonly string VALID_TEST_USERNAME = "nuricanozturk";
-        private readonly string VALID_TEST_PASSWORD = "123";
         public CreateFolderTest(WebDriver driver)
         {
             m_driver = driver.m_webDriver;
-            m_driver.Navigate().GoToUrl(HOME_PAGE);
         }
 
         [Fact]
         public void A_CreateFolder_WithGivenFolderName_ShouldReturnEquals()
         {
-            var expectedText = "account: [nuricanozturk]";
 
-            m_driver.FindElement(USERNAME_INPUT).SendKeys(VALID_TEST_USERNAME);
-            m_driver.FindElement(PASSWORD_INPUT).SendKeys(VALID_TEST_PASSWORD);
-            m_driver.FindElement(LOGIN_BUTTON).Click();
-
-            Util.WaitNSecond(m_driver, 5);
-            var text = m_driver.FindElement(By.Id("account-info")).Text;
-
-            Assert.NotEmpty(text);
-            Assert.Equal(expectedText, text);
-
-
+            Util.Login(m_driver);
+            Util.WaitUntil(m_driver, CREATE_FOLDER_MENU_ITEM);
 
             m_driver.FindElement(CREATE_FOLDER_MENU_ITEM).Click();
-            m_driver.FindElement(CREATE_FOLDER_INPUT).SendKeys(CREATED_TEST_NAME);
+            m_driver.FindElement(CREATE_FOLDER_INPUT).SendKeys(VALID_TEST_FOLDER_NAME);
             m_driver.FindElement(CREATE_FOLDER_BUTTON).Click();            
             m_driver.FindElement(CREATE_FOLDER_INPUT).SendKeys(Keys.Escape);
-            
-            var table = m_driver.FindElement(By.Id("table"));            
-            var createdFolder = table.FindElement(By.Id("table-body")).FindElements(By.Id("folder-col"));
 
-            var flag = false;
-            foreach (var f in createdFolder)
-            {
-                var name = f.FindElement(By.Id("folder-name-label")).Text;
+            Util.WaitUntil(m_driver, CREATE_FOLDER_MENU_ITEM);
 
-                if (name == CREATED_TEST_NAME)
-                    flag = true;
-            }
-            Assert.True(flag);
+            var folders = Util.GetFolders(m_driver);
+            Assert.Contains(folders, f => f.name == VALID_TEST_FOLDER_NAME);
         }
 
 
@@ -71,18 +45,15 @@ namespace FileboxSeleniumTest
         [Fact]
         public void B_CreateFolder_WithGivenInvalidFolderName_ShouldReturnEquals()
         {
+            Util.WaitUntil(m_driver, CREATE_FOLDER_MENU_ITEM);
 
-            m_driver.FindElement(USERNAME_INPUT).SendKeys(VALID_TEST_USERNAME);
-            m_driver.FindElement(PASSWORD_INPUT).SendKeys(VALID_TEST_PASSWORD);
-            m_driver.FindElement(LOGIN_BUTTON).Click();
             m_driver.FindElement(CREATE_FOLDER_MENU_ITEM).Click();
-            m_driver.FindElement(CREATE_FOLDER_INPUT).SendKeys("asdas/?*<>");            
+            m_driver.FindElement(CREATE_FOLDER_INPUT).SendKeys(INVALID_TEST_FOLDER_NAME);            
 
             var expectedText = "You cannot enter the /\\*?<>:\"| characters!";
-            var actualText = m_driver.FindElement(By.Id("invalid-created-folder-name")).Text;
+            var actualText = m_driver.FindElement(INVALID_CREATE_FOLDER_MESSAGE).Text;
 
             Assert.Equal(expectedText, actualText);
-
         }
     }
 }

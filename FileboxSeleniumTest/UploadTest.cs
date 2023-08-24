@@ -6,11 +6,15 @@ namespace FileboxSeleniumTest
     public class UploadTest : IClassFixture<WebDriver>
     {
         private readonly IWebDriver m_driver;
-        private readonly string HOME_PAGE = "http://localhost:3000/";
+        private readonly By UPLOAD_FILE_ITEM = By.Id("upload-file");
+        private readonly By UPLOAD_FILE_CHOOSE_FILE_ITEM = By.Id("upload-file-options-navbar");
+        private readonly By UPLOAD_FILE_BUTTON_ITEM = By.Id("upload-file-button");
+        private readonly By TABLE_ITEM = By.Id("table");
+
+        private readonly string HOME_PAGE = "http://localhost:3000/home";
         public UploadTest(WebDriver driver)
         {
             m_driver = driver.m_webDriver;
-            m_driver.Navigate().GoToUrl(HOME_PAGE);
         }
 
 
@@ -21,34 +25,22 @@ namespace FileboxSeleniumTest
 
             Util.Login(m_driver);
 
-            {
-                WebDriverWait wait = new WebDriverWait(m_driver, TimeSpan.FromSeconds(30));
-                wait.Until(driver => driver.FindElement(By.Id("upload-file")).Enabled);
-            }
+            Util.WaitUntil(m_driver, UPLOAD_FILE_ITEM);
 
-            m_driver.FindElement(By.Id("upload-file")).Click();
-//            m_driver.FindElement(By.Id("upload-file-options-navbar")).Click();
-            m_driver.FindElement(By.Id("upload-file-options-navbar")).SendKeys("C:\\Users\\hp\\Downloads\\NodeJs.pdf");
-            m_driver.FindElement(By.Id("upload-file-button")).Click();
-          
+            m_driver.FindElement(UPLOAD_FILE_ITEM).Click();
+            m_driver.FindElement(UPLOAD_FILE_CHOOSE_FILE_ITEM).SendKeys("C:\\Users\\hp\\Downloads\\Notes.docx");
+            Util.WaitUntil(m_driver, TABLE_ITEM);
+            m_driver.FindElement(UPLOAD_FILE_BUTTON_ITEM).Click();
 
-            {
-                WebDriverWait wait = new WebDriverWait(m_driver, TimeSpan.FromSeconds(80));
-                wait.Until(driver => driver.FindElement(By.Id("table")).Enabled);
-            }
+            Util.WaitUntil(m_driver, TABLE_ITEM, 90);
 
-            m_driver.Navigate().GoToUrl(HOME_PAGE + "home");
-            {
-                WebDriverWait wait = new WebDriverWait(m_driver, TimeSpan.FromSeconds(30));
-                wait.Until(driver => driver.FindElement(By.Id("table")).Enabled);
-            }
+            m_driver.Navigate().GoToUrl(HOME_PAGE);
+            
+            Util.WaitUntil(m_driver, TABLE_ITEM);
+
             var filesOnRootPath = Util.GetFiles(m_driver);
 
-            {
-                WebDriverWait wait = new WebDriverWait(m_driver, TimeSpan.FromSeconds(30));
-                wait.Until(driver => driver.FindElement(By.Id("table")).Enabled);
-            }
-            Assert.Contains(filesOnRootPath, f => f.name == "NodeJs.pdf");
+            Assert.Contains(filesOnRootPath, f => f.name == "Notes.docx");
         }
     }
 }

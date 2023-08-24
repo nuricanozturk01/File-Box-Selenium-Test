@@ -15,15 +15,11 @@ namespace FileboxSeleniumTest
 
         private readonly string INVALID_TEST_USERNAME = "yagmur";
         private readonly string INVALID_TEST_PASSWORD = "53124";
+        private readonly string HOME_PAGE = "http://localhost:3000/";
 
-        public static readonly string HOME_URL = "http://localhost:3000/";
-
-        
-        
         public A_LoginTest(WebDriver webDriver)
         {
             m_driver = webDriver.m_webDriver;
-            m_driver.Navigate().GoToUrl(HOME_URL);
         }
 
 
@@ -64,6 +60,7 @@ namespace FileboxSeleniumTest
         [Fact]
         public void LoginTest_WithGivenUsernameAndPassword_ShouldReturnEqual()
         {
+            m_driver.Navigate().GoToUrl(HOME_PAGE);
             var expectedText = "account: [nuricanozturk]";
 
             m_driver.FindElement(USERNAME_INPUT).SendKeys(VALID_TEST_USERNAME);

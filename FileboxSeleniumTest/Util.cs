@@ -70,14 +70,18 @@ namespace FileboxSeleniumTest
             return fileList;
         }
 
-
-        public static void WaitUntil(IWebDriver driver, IWebElement webElement, double time)
+        public static void WaitUntil(IWebDriver driver, By element)
         {
-            {
-                WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(time));
-                wait.Until(driver => driver.FindElement(By.Id("table")).Enabled);
-            }
+            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(30));
+            wait.Until(driver => driver.FindElement(element).Enabled);
         }
+
+        public static void WaitUntil(IWebDriver driver, By element, double time)
+        {
+            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(time));
+            wait.Until(driver => driver.FindElement(element).Enabled);
+        }
+
 
         public static List<FolderView> GetFolders(IWebDriver driver)
         {
