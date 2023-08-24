@@ -42,7 +42,7 @@ namespace FileboxSeleniumTest
          * 
          */
         private static DateTime GetDateTimeObjectByDateTimeString(string dateTimeString)
-        {         
+        {
             return DateTime.ParseExact(dateTimeString, "dd/MM/yyyy HH:mm:ss", CultureInfo.InvariantCulture, DateTimeStyles.None);
         }
 
@@ -74,7 +74,7 @@ namespace FileboxSeleniumTest
          * Get Files from current table on the screen
          * 
          */
-        public static List<FileView> GetFiles(IWebDriver driver) 
+        public static List<FileView> GetFiles(IWebDriver driver)
         {
             var fileList = new List<FileView>();
             {
@@ -83,8 +83,8 @@ namespace FileboxSeleniumTest
             }
             var table = driver.FindElement(By.Id("table"));
             var files = table.FindElement(By.Id("table-body")).FindElements(By.Id("file-col"));
-            
-            foreach (var file in files ) 
+
+            foreach (var file in files)
             {
                 var fileNameWebElement = file.FindElement(By.Id("file-name-label"));
                 var fileName = fileNameWebElement.Text;

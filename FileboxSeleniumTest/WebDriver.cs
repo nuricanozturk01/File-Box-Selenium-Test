@@ -13,7 +13,7 @@ namespace FileboxSeleniumTest
         {
             m_webDriver = new EdgeDriver();
             m_webDriver.Navigate().GoToUrl(HOME_PAGE);
-            
+
         }
 
         public void Dispose()

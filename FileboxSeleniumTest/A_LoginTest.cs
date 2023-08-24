@@ -36,7 +36,7 @@ namespace FileboxSeleniumTest
         {
             var expectedText = "Please control the username and password";
 
-            
+
             m_driver.FindElement(USERNAME_INPUT).SendKeys(INVALID_TEST_USERNAME);
             m_driver.FindElement(PASSWORD_INPUT).SendKeys(INVALID_TEST_PASSWORD);
             m_driver.FindElement(LOGIN_BUTTON).Click();
@@ -69,7 +69,7 @@ namespace FileboxSeleniumTest
 
             Util.WaitNSecond(m_driver, 5);
             var text = m_driver.FindElement(By.Id("account-info")).Text;
-            
+
             Assert.NotEmpty(text);
             Assert.Equal(expectedText, text);
         }

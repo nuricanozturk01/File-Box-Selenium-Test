@@ -45,10 +45,10 @@ namespace FileboxSeleniumTest
 
             Util.WaitUntil(m_driver, TABLE_ITEM, 20);
 
-            
+
             Util.WaitUntil(m_driver, TABLE_ITEM, 30);
             var downloadedFile = new FileInfo(Path.Combine("C:\\Users\\hp\\Downloads", downloadingFile.name));
-            
+
             await Task.Delay(3000);
 
             Assert.NotNull(downloadedFile);

@@ -41,6 +41,7 @@ namespace FileboxSeleniumTest
             // Files on the page
             var files = Util.GetFiles(m_driver);
             Util.WaitUntil(m_driver, TABLE_ITEM);
+
             //Selecting removing file
             var renamingFile = files[3];
 
@@ -87,6 +88,7 @@ namespace FileboxSeleniumTest
             // Files on the page
             var folders = Util.GetFolders(m_driver);
             Util.WaitUntil(m_driver, TABLE_ITEM);
+
             //Selecting removing file
             var renamingFolder = folders[random.Next(0, folders.Count - 1)];
 
