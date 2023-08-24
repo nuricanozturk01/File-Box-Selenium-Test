@@ -17,8 +17,12 @@ namespace FileboxSeleniumTest
         {
             m_driver = driver.m_webDriver;
         }
-    
 
+        /*
+         * 
+         * Sort Files by File Size and check it
+         * 
+         */
         [Fact]
         public void SortFileByFileSize_WithGivenFolderId_ShouldReturnTrue()
         {
@@ -65,6 +69,11 @@ namespace FileboxSeleniumTest
 
 
 
+        /*
+         * 
+         * Sort Files by Creation Date and check it
+         * 
+         */
         [Fact]
         public void SortFileByCreationDate_WithGivenFolderId_ShouldReturnTrue()
         {

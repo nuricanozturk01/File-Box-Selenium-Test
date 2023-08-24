@@ -18,6 +18,15 @@ namespace FileboxSeleniumTest
         }
 
 
+
+
+
+
+        /*
+         * 
+         * Upload File and check is it exists or not.
+         * 
+         */
         [Fact]
         public void UploadFile_WithGivenFolderId_ShouldReturnsEqualAndTrue()
         {

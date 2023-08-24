@@ -15,6 +15,15 @@ namespace FileboxSeleniumTest
             m_driver = driver.m_webDriver;
         }
 
+
+
+
+
+        /*
+         * 
+         * Filter Files By Extension and check it's extensions. 
+         * 
+         */
         [Fact]
         public void FilterByFileExtension_WithGivenFileExtensionAndFolderId_ShouldReturnEquals()
         {

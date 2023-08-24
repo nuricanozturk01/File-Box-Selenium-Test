@@ -13,11 +13,17 @@ namespace FileboxSeleniumTest
 
         public static readonly string VALID_TEST_USERNAME = "nuricanozturk";
         public static readonly string VALID_TEST_PASSWORD = "123";
-        public static void WaitNSecond(IWebDriver driver, double time)
-        {
-            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(time);
-        }
 
+
+
+
+
+
+        /*
+         * 
+         * Login method for other tests
+         * 
+         */
         public static void Login(IWebDriver m_driver)
         {
             m_driver.FindElement(USERNAME_INPUT).SendKeys(VALID_TEST_USERNAME);
@@ -25,6 +31,16 @@ namespace FileboxSeleniumTest
             m_driver.FindElement(LOGIN_BUTTON).Click();
         }
 
+
+
+
+
+
+        /*
+         * 
+         * Create DateTime Object with given datetime string
+         * 
+         */
         private static DateTime GetDateTimeObjectByDateTimeString(string dateTimeString)
         {         
             return DateTime.ParseExact(dateTimeString, "dd/MM/yyyy HH:mm:ss", CultureInfo.InvariantCulture, DateTimeStyles.None);
@@ -32,6 +48,13 @@ namespace FileboxSeleniumTest
 
 
 
+
+
+        /*
+         * 
+         * Decompose file size string and convert it to xy.zt MB...
+         * 
+         */
         private static (double fileSize, string fileSizeUnit) GetFileSizeWithFileSizeUnit(string fileSizeString)
         {
             string pattern = @"(\d+\.\d+)\s*(MB|GB|Byte|KB)";
@@ -46,7 +69,11 @@ namespace FileboxSeleniumTest
 
 
 
-
+        /*
+         * 
+         * Get Files from current table on the screen
+         * 
+         */
         public static List<FileView> GetFiles(IWebDriver driver) 
         {
             var fileList = new List<FileView>();
@@ -70,12 +97,30 @@ namespace FileboxSeleniumTest
             return fileList;
         }
 
+
+
+
+
+        /*
+         * 
+         * Wait until by webelement
+         * 
+         */
         public static void WaitUntil(IWebDriver driver, By element)
         {
             WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(30));
             wait.Until(driver => driver.FindElement(element).Enabled);
         }
 
+
+
+
+
+        /*
+         * 
+         * Wait until by webelement with specific time
+         * 
+         */
         public static void WaitUntil(IWebDriver driver, By element, double time)
         {
             WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(time));
@@ -83,6 +128,30 @@ namespace FileboxSeleniumTest
         }
 
 
+
+
+
+
+        /*
+         * 
+         * Wait method but implicit
+         * 
+         */
+        public static void WaitNSecond(IWebDriver driver, double time)
+        {
+            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(time);
+        }
+
+
+
+
+
+
+        /*
+         * 
+         * Get Folders from current table on the screen
+         * 
+         */
         public static List<FolderView> GetFolders(IWebDriver driver)
         {
             var folderList = new List<FolderView>();

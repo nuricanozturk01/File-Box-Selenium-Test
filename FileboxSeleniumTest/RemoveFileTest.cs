@@ -13,6 +13,15 @@ namespace FileboxSeleniumTest
             m_driver = driver.m_webDriver;
         }
 
+
+
+
+
+        /*
+         * 
+         * Remove File And confirm it removed 
+         * 
+         */
         [Fact]
         public void RemoveFile_WithGivenFileIdAndUserId_ShouldReturnEqual()
         {
@@ -52,7 +61,11 @@ namespace FileboxSeleniumTest
 
 
 
-
+        /*
+         * 
+         * Remove Folder And confirm it removed 
+         * 
+         */
         [Fact]
         public void RemoveFolder_WithGivenFolderIdAndUserId_ShouldReturnEqual()
         {

@@ -20,6 +20,15 @@ namespace FileboxSeleniumTest
             m_driver = driver.m_webDriver;
         }
 
+
+
+
+
+        /*
+         * 
+         * Rename File And confirm it's name is changed 
+         * 
+         */
         [Fact]
         public void A_RenameFile_WithGivenNewFileName_ShouldReturnsEqual()
         {
@@ -62,7 +71,11 @@ namespace FileboxSeleniumTest
 
 
 
-
+        /*
+         * 
+         * Rename Folder And confirm it's name is changed 
+         * 
+         */
         [Fact]
         public void B_RenameFolder_WithGivenNewFolderName_ShouldReturnsEqual()
         {
