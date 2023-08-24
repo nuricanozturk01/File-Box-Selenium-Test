@@ -79,7 +79,7 @@ namespace FileboxSeleniumTest
             Util.WaitUntil(m_driver, TABLE_ITEM);
 
             var afterRemoveFolders = Util.GetFolders(m_driver);
-
+            Util.WaitUntil(m_driver, TABLE_ITEM);
             Assert.NotEqual(folders.Count, afterRemoveFolders.Count);
             Assert.Equal(folders.Count - 1, afterRemoveFolders.Count);
             Assert.True(!afterRemoveFolders.Contains(removingFolder));
