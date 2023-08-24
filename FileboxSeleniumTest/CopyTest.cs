@@ -1,6 +1,5 @@
 ﻿using OpenQA.Selenium;
 using OpenQA.Selenium.Interactions;
-using OpenQA.Selenium.Support.UI;
 
 namespace FileboxSeleniumTest
 {
@@ -11,10 +10,10 @@ namespace FileboxSeleniumTest
         private readonly By PASTE_RIGHT_CLICK_BUTTON = By.Id("paste-right-click-item-button");
 
         private readonly IWebDriver m_driver;
-        
+
         public CopyTest(WebDriver driver)
         {
-            m_driver = driver.m_webDriver;        
+            m_driver = driver.m_webDriver;
         }
 
 
@@ -48,15 +47,15 @@ namespace FileboxSeleniumTest
             // Action for right click
             Actions action = new Actions(m_driver);
             action.MoveToElement(copyingFile.selectedWebElement).ContextClick().Build().Perform();
-            
+
             // Copied selected item
             m_driver.FindElement(COPY_RIGHT_CLICK_BUTTON).Click();
             copiedFolder.selectedWebElement.Click();
             Util.WaitUntil(m_driver, TABLE_ID);
             var filesOnFolder = Util.GetFiles(m_driver);
-            
+
             Util.WaitUntil(m_driver, TABLE_ID);
-            
+
             action.MoveToElement(filesOnFolder[0].selectedWebElement).ContextClick().Build().Perform();
 
             m_driver.FindElement(PASTE_RIGHT_CLICK_BUTTON).Click();
@@ -66,7 +65,7 @@ namespace FileboxSeleniumTest
 
             Util.WaitUntil(m_driver, TABLE_ID);
             var homePageFiles = Util.GetFiles(m_driver);
-            
+
             Assert.Contains(homePageFiles, f => f.name == copyingFile.name);
             Assert.Contains(afterCopiedFileList, f => f.name == copyingFile.name);
         }

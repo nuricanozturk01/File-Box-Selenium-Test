@@ -1,5 +1,4 @@
 ﻿using OpenQA.Selenium;
-using OpenQA.Selenium.Support.UI;
 
 namespace FileboxSeleniumTest
 {
@@ -38,7 +37,7 @@ namespace FileboxSeleniumTest
 
             m_driver.FindElement(CREATE_FOLDER_MENU_ITEM).Click();
             m_driver.FindElement(CREATE_FOLDER_INPUT).SendKeys(VALID_TEST_FOLDER_NAME);
-            m_driver.FindElement(CREATE_FOLDER_BUTTON).Click();            
+            m_driver.FindElement(CREATE_FOLDER_BUTTON).Click();
             m_driver.FindElement(CREATE_FOLDER_INPUT).SendKeys(Keys.Escape);
 
             Util.WaitUntil(m_driver, CREATE_FOLDER_MENU_ITEM);
@@ -61,7 +60,7 @@ namespace FileboxSeleniumTest
             Util.WaitUntil(m_driver, CREATE_FOLDER_MENU_ITEM);
 
             m_driver.FindElement(CREATE_FOLDER_MENU_ITEM).Click();
-            m_driver.FindElement(CREATE_FOLDER_INPUT).SendKeys(INVALID_TEST_FOLDER_NAME);            
+            m_driver.FindElement(CREATE_FOLDER_INPUT).SendKeys(INVALID_TEST_FOLDER_NAME);
 
             var expectedText = "You cannot enter the /\\*?<>:\"| characters!";
             var actualText = m_driver.FindElement(INVALID_CREATE_FOLDER_MESSAGE).Text;

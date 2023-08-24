@@ -1,7 +1,4 @@
 ﻿using OpenQA.Selenium;
-using OpenQA.Selenium.Support.UI;
-using System.Globalization;
-using System.Text.RegularExpressions;
 
 namespace FileboxSeleniumTest
 {
@@ -90,16 +87,7 @@ namespace FileboxSeleniumTest
 
             var dateList = files.Select(f => f.creationDate).ToList();
 
-            var flag = true;
-
-            for(int i = 0; i < dateList.Count - 1; ++i)
-                if (dateList[i] > dateList[i + 1])
-                {
-                    flag = false;
-                    break;
-                }
-
-            Assert.True(flag);
+            Assert.True(dateList.Zip(dateList.Skip(1), (f, s) => Comparer<DateTime>.Default.Compare(f, s) <= 0).All(d => d));
         }
 
 
