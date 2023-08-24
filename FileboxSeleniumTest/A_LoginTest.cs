@@ -1,9 +1,8 @@
 using OpenQA.Selenium;
-using OpenQA.Selenium.Edge;
 
 namespace FileboxSeleniumTest
 {
-    public class LoginTest : IClassFixture<WebDriver>
+    public class A_LoginTest : IClassFixture<WebDriver>
     {
         private readonly IWebDriver m_driver;
 
@@ -21,7 +20,7 @@ namespace FileboxSeleniumTest
 
         
         
-        public LoginTest(WebDriver webDriver)
+        public A_LoginTest(WebDriver webDriver)
         {
             m_driver = webDriver.m_webDriver;
             m_driver.Navigate().GoToUrl(HOME_URL);

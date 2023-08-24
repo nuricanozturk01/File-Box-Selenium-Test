@@ -7,9 +7,12 @@ namespace FileboxSeleniumTest
     {
         public readonly IWebDriver m_webDriver;
 
+        private readonly string HOME_PAGE = "http://localhost:3000/";
+
         public WebDriver()
         {
             m_webDriver = new EdgeDriver();
+            
         }
 
         public void Dispose()
