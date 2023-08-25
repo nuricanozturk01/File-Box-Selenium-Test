@@ -42,7 +42,7 @@ namespace FileboxSeleniumTest
                 if (f.fileSizeUnit == "MB") mbList.Add(f.fileSize);
                 if (f.fileSizeUnit == "KB") kbList.Add(f.fileSize);
                 if (f.fileSizeUnit == "GB") gbList.Add(f.fileSize);
-                if (f.fileSizeUnit == "Byte") byteList.Add(f.fileSize);
+                if (f.fileSizeUnit == "Bytes") byteList.Add(f.fileSize);
             });
 
             var flag = true;

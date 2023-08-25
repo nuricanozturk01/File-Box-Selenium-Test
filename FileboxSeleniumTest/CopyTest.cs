@@ -42,7 +42,7 @@ namespace FileboxSeleniumTest
             //Selecting removing file
 
             var copyingFile = files[random.Next(0, files.Count - 1)];
-            var copiedFolder = folders[1];
+            var copiedFolder = folders[0];
 
             // Action for right click
             Actions action = new Actions(m_driver);

@@ -11,7 +11,7 @@ namespace FileboxSeleniumTest
         public static readonly By PASSWORD_INPUT = By.Id("floatingPassword");
         public static readonly By LOGIN_BUTTON = By.Id("login-button");
 
-        public static readonly string VALID_TEST_USERNAME = "nuricanozturk";
+        public static readonly string VALID_TEST_USERNAME = "ahmetkoc";
         public static readonly string VALID_TEST_PASSWORD = "123";
 
 
@@ -57,12 +57,12 @@ namespace FileboxSeleniumTest
          */
         private static (double fileSize, string fileSizeUnit) GetFileSizeWithFileSizeUnit(string fileSizeString)
         {
-            string pattern = @"(\d+\.\d+)\s*(MB|GB|Byte|KB)";
+            string pattern = @"(\d+\.\d+)\s*(MB|GB|Bytes|KB)";
             Match match = Regex.Match(fileSizeString, pattern);
             string extractedNumber = match.Groups[1].Value;
             string unit = match.Groups[2].Value;
 
-            return (double.Parse(extractedNumber), unit);
+            return (double.Parse(extractedNumber == "" ? "0" : extractedNumber), unit == "" ? "Bytes" : unit);
         }
 
 
