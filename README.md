@@ -1,5 +1,7 @@
 # File-Box-Selenium-Test
-Selenium Test for filebox
+
+This repository include selenium test For FileBox App.
+
 ## Project Links
   ### Front-End
     - https://github.com/nuricanozturk01/File-Box-FrontEnd
